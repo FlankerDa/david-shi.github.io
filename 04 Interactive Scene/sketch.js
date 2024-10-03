@@ -1,9 +1,7 @@
-// Project Title
-// Your Name
-// Date
-//
-
-
+// Interactive Scene
+// David Shi
+// 10/1/2024
+// Interactiable project
 
 
 let currentBack = 0
