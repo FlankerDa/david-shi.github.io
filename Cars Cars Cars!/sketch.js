@@ -6,14 +6,25 @@
 // custom traffic
 
 
+let eastbound = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  let westbound = new vehicle(0,windowHeight/2);
-  let eastbound = new vehicle(windowWidth,windowHeight/2 -75);
+
 }
 
+function draw() {
+  background(220);
+  drawRoad();
+  for (let i = 0; i<eastbound.length; i++){
+    eastbound[i].action();
+    
+  }
+}
 
+function mouseClicked(){
+  eastbound.push(new Vehicle(mouseX, mouseY, 1));
+}
 
 // draws the road
 function drawRoad() {
@@ -24,42 +35,44 @@ function drawRoad() {
   // dotted line
 
   fill(255,255,255);
-  for (let x = 0; x < windowWidth; x += 200){
+  for (let x = 0; x < windowWidth; x += 100){
 
-    rect(x, windowHeight/2, 150, 15);
+    rect(x, windowHeight/2, 70, 10);
     
   }
 }
 
-class vehicle{
-  constructor(x, y, type, color, dir, speed){
-    this.x = x;  this.y = y;
-    this.steps = 10;  this.speed = 5;
+class Vehicle{
+  constructor(x, y, type, dir, speed){
+    this.x = x;  
+    this.y = y;
+    this.dir = dir;
+    this.c = color(random(255),random(255),random(255));
+    this.type = int(random(2));
   }
+
+  action(){
+    this.display();
+  }
+
   display(){  //DISPLAY
-    let veciType = (Math.random() * 2);
-    if (veciType === 0){
-      rect(this.x += this.speed);
+    if (this.type === 0){
+      this.drawCar();
     }
-    if (veciType === 1){
-
+    if (this.type === 1){
+      this.drawTruck();
     }
   }
 
-  move(){
-    this.x += this.speed;     //MOVEMENT
-    this.steps--;  //-=1
-    if(this.steps === 0){
-      this.steps = windowWidth;
-      this.speed *= -1;
-    }       
+  drawCar(){
+    fill(this.c);
+    rect(this.x,this.y,50,20);
+  }
+
+  drawTruck(){
+    fill(this.c);
+    ellipse(this.x,this.y,50,20);
   }
 }
 
-function draw() {
-  background(220);
-  drawRoad();
 
-  westbound.display();
-  eastbound.display();
-}
