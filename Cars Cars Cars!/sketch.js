@@ -24,8 +24,8 @@ function draw() {
 
 function mouseClicked(){
   eastbound.push(new Vehicle(mouseX, mouseY, 1));
-}
 
+}
 // draws the road
 function drawRoad() {
   noStroke();
@@ -48,7 +48,14 @@ class Vehicle{
     this.y = y;
     this.dir = dir;
     this.c = color(random(255),random(255),random(255));
-    this.type = int(random(2));
+    this.type = type;
+    this.nx = speed;
+  }
+  // contsadahsjrs t jedjy utuj r
+
+
+  move() {
+    this.x = this.x + this.nx;
   }
 
   action(){
