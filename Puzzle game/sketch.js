@@ -8,11 +8,14 @@ let NUM_COLS = 5;
 let rectWidth, rectHeight;
 let currentRow, currentCol;
 let gridData = [[0,0,0,0,0],
-                [0,0,0,0,0],
-                [0,255,0,0,0],
-                [255,255,255,0,0]];
+  [0,0,0,0,0],
+  [0,255,0,0,0],
+  [255,255,255,0,0]];
 
 
+function RandomizedStartingArrangement(){
+
+}
 
 function setup() {
   // Determine the size of each square. Could use windowHeight,windowHeight  for Canvas to keep a square aspect ratio
@@ -25,7 +28,9 @@ function draw() {
   background(220);
   determineActiveSquare();   //figure out which tile the mouse cursor is over
   drawGrid();  //render the current game board to the screen (and the overlay)
+  winCondition();
 }
+
 
 
 
@@ -34,7 +39,8 @@ function mousePressed(){
 
   if (keyCode === SHIFT && keyIsPressed) {
     flip(currentCol, currentRow);
-  } else {
+  }
+  else {
     flip(currentCol, currentRow);
     flip(currentCol-1, currentRow);
     flip(currentCol+1, currentRow);
@@ -72,5 +78,30 @@ function drawGrid(){
     }
   }
 }
+
+function winCondition() {
+  let firstValue = gridData[0][0];
+  let allSame = true;
+
+
+  for (let row = 0; row < NUM_ROWS; row++) {
+    for (let col = 0; col < NUM_COLS; col++) {
+      if (gridData[row][col] !== firstValue) {
+        allSame = false;
+        break;
+      }
+    }
+    if (!allSame) {break;}
+  }
+
+
+  if (allSame) {
+    textSize(32);
+    fill(0, 255, 0);
+    textAlign(CENTER, CENTER);
+    text("You Win", width / 2, height / 2);
+  }
+}
+
 
 
