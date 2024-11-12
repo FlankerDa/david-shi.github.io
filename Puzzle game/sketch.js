@@ -11,22 +11,16 @@ let gridData = [[0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0],
 [0, 255, 0, 0, 0],
 [255, 255, 255, 0, 0]];
+let flipPattern = 'cross'
+let overlayPattern = 'cross'
 
-
-function RandomizedStartingArrangement() {
-  for (let i = 0; i < NUM_COLS; i++) {
-    for (let j = 0; j < NUM_ROWS; j++) {
-      grid[NUM_COLS][NUM_ROWS] = random([0, 255]);
-    }
-  }
-}
 
 function setup() {
   // Determine the size of each square. Could use windowHeight,windowHeight  for Canvas to keep a square aspect ratio
   createCanvas(windowWidth, windowHeight);
   rectWidth = width / NUM_COLS;
   rectHeight = height / NUM_ROWS;
-  RandomizedStartingArrangement();
+  randomizedStartingArrangement()
 }
 
 function draw() {
@@ -34,9 +28,21 @@ function draw() {
   determineActiveSquare();   //figure out which tile the mouse cursor is over
   drawGrid();  //render the current game board to the screen (and the overlay)
   winCondition();
+  drawOverlay();
 
 }
 
+function randomizedStartingArrangement() {
+  // Fill gridData with random 0s and 255s
+  gridData = [];
+  for (let i = 0; i < NUM_ROWS; i++) {
+    let newRow = [];
+    for (let j = 0; j < NUM_COLS; j++) {
+      newRow.push(random([0, 255]));
+    }
+    gridData.push(newRow);
+  }
+}
 
 
 
@@ -67,18 +73,18 @@ function flip(col, row,) {
         gridData[row][col] = 0;
 
 
-      】
+      }
 
     }
   }
-
-  function determineActiveSquare() {
+}
+function determineActiveSquare() {
     // An expression to run each frame to determine where the mouse currently is.
     currentRow = int(mouseY / rectHeight);
     currentCol = int(mouseX / rectWidth);
-  }
+}
 
-  function drawGrid() {
+function drawGrid() {
     // Render a grid of squares - fill color set according to data stored in the 2D array
     for (let x = 0; x < NUM_COLS; x++) {
       for (let y = 0; y < NUM_ROWS; y++) {
@@ -86,22 +92,22 @@ function flip(col, row,) {
         rect(x * rectWidth, y * rectHeight, rectWidth, rectHeight);
       }
     }
-  }
+}
 
-  function winCondition() {
+function winCondition() {
     let firstValue = gridData[0][0];
     let allSame = true;
 
 
-    for (let row = 0; row < NUM_ROWS; row++) {
-      for (let col = 0; col < NUM_COLS; col++) {
-        if (gridData[row][col] !== firstValue) {
-          allSame = false;
-          break;
-        }
+  for (let row = 0; row < NUM_ROWS; row++) {
+    for (let col = 0; col < NUM_COLS; col++) {
+      if (gridData[row][col] !== firstValue) {
+        allSame = false;
+        break;
       }
-      if (!allSame) { break; }
     }
+    if (!allSame) { break; }
+  }
 
 
     if (allSame) {
@@ -112,4 +118,46 @@ function flip(col, row,) {
     }
   }
 
+function highlightSquare(col, row) {
+  if (col >= 0 && col < NUM_COLS && row >= 0 && row < NUM_ROWS) {
+
+    rect(col * rectWidth, row * rectHeight, rectWidth, rectHeight);
+  }
+}
+
+function drawOverlay() {
+  
+  fill(100, 100, 255, 150);
+  noStroke();
+  if (overlayPattern === 'cross') {
+    highlightSquare(currentCol, currentRow);
+    highlightSquare(currentCol - 1, currentRow);
+    highlightSquare(currentCol + 1, currentRow);
+    highlightSquare(currentCol, currentRow - 1);
+    highlightSquare(currentCol, currentRow + 1);
+  } else if (overlayPattern === 'square') {
+  
+    for (let i = -1; i <= 1; i++) {
+      for (let j = -1; j <= 1; j++) {
+        highlightSquare(currentCol + j, currentRow + i);
+      }
+    }
+  }
+}
+
+
+function keyPressed() {
+
+  if (key === 'R') {
+    randomizedStartingArrangement();
+  }
+
+  if (key === ' ') {
+    if (keyIsDown(SHIFT)) {
+      overlayPattern = (overlayPattern === 'cross') ? 'square' : 'cross';
+    } else {
+      flipPattern = (flipPattern === 'cross') ? 'square' : 'cross';
+    }
+  }
+}
 
