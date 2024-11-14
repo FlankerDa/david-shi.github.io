@@ -1,9 +1,8 @@
-// Project Title
-// Your Name
-// Date
+// The Balloon Tree
+// David Shi
+// 2024/11/14
 //
-// Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// Generates an tree with balloons on there.
 
 
 let scale = 15;
@@ -14,7 +13,7 @@ function setup() {
 }
 
 function draw() {
-  drawTree(width/2, height*.9, 90, 6);
+  drawTree(width/2, height*0.9, 90, 6);
 }
 
 function drawLine( x1, y1, x2, y2, depth) {
@@ -24,11 +23,12 @@ function drawLine( x1, y1, x2, y2, depth) {
 
 function drawTree(x1, y1, angle, depth) {
   if (depth > 0) {
-    let x2 = x1 + (cos(radians(angle))*depth*scale); //calculate endpoints of current branch
-    let y2 = y1 - (sin(radians(angle))*depth*scale); //using trig ratios. Get shorter based on depth
+    let x2 = x1 + cos(radians(angle))*depth*scale; //calculate endpoints of current branch
+    let y2 = y1 - sin(radians(angle))*depth*scale; //using trig ratios. Get shorter based on depth
     drawLine(x1, y1, x2, y2, depth);
-    //for a 2-branch tree:
-    drawTree(x2, y2, angle-18, depth-1);
-    drawTree(x2, y2, angle+18, depth-1);
+    //for a ３-branch tree:
+    drawTree(x2, y2, angle-30, depth-1);
+    drawTree(x2, y2, angle+30, depth-1);
+    drawTree(x2, y2, angle+0, depth-1);
   }
 }
