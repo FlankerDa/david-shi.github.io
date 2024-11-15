@@ -2,7 +2,8 @@
 // David Shi
 // 2024/11/14
 //
-// Generates an tree with balloons on there.
+// Generates an tree with balloons on there.m
+
 
 
 let scale = 15;
@@ -21,14 +22,21 @@ function drawLine( x1, y1, x2, y2, depth) {
   line(x1, y1, x2, y2);
 }
 
+function drawLeaf(x, y){
+
+  fill(random());
+  circle(x, y, 20);
+}
+
 function drawTree(x1, y1, angle, depth) {
   if (depth > 0) {
     let x2 = x1 + cos(radians(angle))*depth*scale; //calculate endpoints of current branch
     let y2 = y1 - sin(radians(angle))*depth*scale; //using trig ratios. Get shorter based on depth
     drawLine(x1, y1, x2, y2, depth);
     //for a ３-branch tree:
-    drawTree(x2, y2, angle-30, depth-1);
-    drawTree(x2, y2, angle+30, depth-1);
+    drawTree(x2, y2, angle-30-mouseX, depth-1);
+    drawTree(x2, y2, angle+30+mouseX, depth-1);
     drawTree(x2, y2, angle+0, depth-1);
+    drawLeaf(x2, y2);
   }
 }
