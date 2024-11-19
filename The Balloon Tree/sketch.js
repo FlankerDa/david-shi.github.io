@@ -5,7 +5,6 @@
 // Generates an tree with balloons on there.m
 
 
-
 let scale = 15;
 
 function setup() {
@@ -15,6 +14,7 @@ function setup() {
 
 function draw() {
   drawTree(width/2, height*0.9, 90, 6);
+  randomSeed(20);
 }
 
 function drawLine( x1, y1, x2, y2, depth) {
@@ -22,10 +22,14 @@ function drawLine( x1, y1, x2, y2, depth) {
   line(x1, y1, x2, y2);
 }
 
-function drawLeaf(x, y){
+function drawLeaf(x, y, z){
+  r = random(255);
+  g = random(255);
+  b = random(255);
 
-  fill(random());
-  circle(x, y, 20);
+  fill(r, g, b);
+  circle(x, y, z);
+
 }
 
 function drawTree(x1, y1, angle, depth) {
@@ -34,9 +38,15 @@ function drawTree(x1, y1, angle, depth) {
     let y2 = y1 - sin(radians(angle))*depth*scale; //using trig ratios. Get shorter based on depth
     drawLine(x1, y1, x2, y2, depth);
     //for a ３-branch tree:
-    drawTree(x2, y2, angle-30-mouseX, depth-1);
-    drawTree(x2, y2, angle+30+mouseX, depth-1);
+    drawTree(x2, y2, angle-30, depth-1);
+    drawTree(x2, y2, angle+30, depth-1);
     drawTree(x2, y2, angle+0, depth-1);
-    drawLeaf(x2, y2);
+
+    for (let i = 0; i < depth; i++) {
+      if (depth < 5){
+        drawLeaf(x2, y2, i+10*2);
+      }
+    }
+    
   }
 }
