@@ -158,10 +158,12 @@ function drawOverlay() {
 // when space pressed changes to square or cross
 function keyPressed() {
   if (key === ' ') {
-    overlayPattern = overlayPattern === 'cross' ? 'square' : 'cross';
-  }
-  else {
-    flipPattern = flipPattern === 'cross' ? 'square' : 'cross';
+    if (overlayPattern === 'cross') {
+      overlayPattern = 'square';
+    } else {
+      overlayPattern = 'cross';
+    }
   }
 }
+
 
